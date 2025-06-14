@@ -7,3 +7,18 @@
 -- 6. 정렬: CNTR_COUNT DESC, ETD ASC
 
 -- 여기에 SQL 쿼리를 작성하세요
+SELECT HBL_NO,
+       CNTR_COUNT,
+       ETD
+FROM (
+        SELECT
+            M.HBL_NO,
+            COUNT(C.CNTR_NO) AS CNTR_COUNT,
+            M.ETD
+        FROM FMS_HBL_MST M
+            JOIN FMS_HBL_CNTR C
+                ON M.HBL_NO = C.HBL_NO
+        GROUP BY M.HBL_NO, M.ETD
+        ORDER BY COUNT(C.CNTR_NO) DESC, M.ETD ASC
+     )
+WHERE ROWNUM = 1;
